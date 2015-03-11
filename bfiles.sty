@@ -1,0 +1,60 @@
+\ProvidesPackage{bfiles}[2014/03/31 v1.0 The BISCUIT Files]
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}} 	% Horizontal rule
+
+\makeatletter							% Title
+\def \printtitle{%						
+    {\centering \@title\par}}
+\makeatother									
+
+\makeatletter							% Author
+\def \printauthor{%					
+    {\centering \large \@author}}				
+\makeatother							
+
+% redefine these ------------------------------------
+\def \bissue {0}
+\def \blongestname {LONGEST NAME HERE}
+\def \bauthor {AUTHOR HERE}
+%----------------------------------------------------
+
+\title{	\normalsize \textsc{Issue \#\bissue} 	% Subtitle of the document
+		 	\\[2.0cm]													% 2cm spacing
+			\begin{center}
+				\includegraphics[scale=0.5]{BISCUIT.png}
+			\end{center}
+			\LARGE \textbf{\uppercase{The BISCUIT Files}}	% Title
+		}
+\author{
+		\bauthor
+}
+
+
+
+
+\newenvironment{bdialogue}[0]
+ {\begin{list}{}%
+  {\renewcommand\makelabel[1]{##1 \hfill}%
+  \settowidth\labelwidth{\makelabel{\blongestname}}%
+  \setlength\leftmargin{\labelwidth}
+  \addtolength\leftmargin{\labelsep}}}
+ {\end{list}}
+
+\newcommand{\bsectionline}[0]{
+\end{bdialogue}
+\begin{center} 
+  \includegraphics[scale=.5]{hrule.png}
+\end{center}
+\begin{bdialogue}}
+
+
+%---------------------------------------------------------
+
+\newcommand{\btitlepage}[0]{
+\thispagestyle{empty}				% Remove page numbering on this page
+
+\printtitle									% Print the title data as defined above
+  	\vfill
+\printauthor								% Print the author data as defined above
+\newpage
+}
