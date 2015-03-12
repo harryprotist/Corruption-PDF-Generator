@@ -34,8 +34,13 @@ def convert_lines(filename, out_filename, settings):
 			line_match = match(r'\[.+?] (.+?): (.+)', line)
 			new_line = line.strip()
 			if line_match is not None:
+
 				name = line_match.group(1)
 				msg = line_match.group(2)
+
+				if match(r'^\(\.\.\.\)', msg):
+					continue
+
 				if "characters" in settings and name in settings["characters"]:
 					name = settings["characters"][name]
 
