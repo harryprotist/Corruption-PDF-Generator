@@ -1,6 +1,10 @@
 \PassOptionsToPackage{svgnames}{xcolor}
 \documentclass{article}
 
+%& -output-directory=./make -aux-directory=./make
+
+\nonstopmode
+
 \usepackage{graphicx}
 \usepackage{amsmath,amsfonts,amsthm,amssymb}
 \usepackage{bfiles} %formatting for all the issues
@@ -10,8 +14,8 @@
 \def \bauthor{
 	@@characters@@	
 }
-\def \blongestname {aaaaaaaaa} % sets longest name to Major Tom for formatting
-\def \bissue { @@issue@@ } % sets issue number
+\def \blongestname { aaaaaaaaa } % sets longest name to Major Tom for formatting
+\def \btitle { @@title@@ } % sets issue number
 
 \btitlepage
 
