@@ -13,4 +13,5 @@ cd src
 if [ "$#" -eq 3 ]; then
 	rm "${3}.aux" "${3}.log" "${3}.tex" "$1" "$2"
 fi
+mv "${3}.pdf" "$DIR"
 cd ..
