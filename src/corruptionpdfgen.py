@@ -11,6 +11,12 @@ def gen_character_names(settings):
 			# eight backslashes becomes 2 in final version
 			text += name + " as " + settings["characters"][name] + '\\\\\\\\\n' 
 	return text
+
+def sub_names(string, settings):
+	if "characters" in settings:
+		for name in settings["characters"]:
+			string = sub("^" + name, settings["characters"][name], string)
+	return string
 	
 def get_issue(settings):
 	if "issue" in settings:
@@ -58,6 +64,8 @@ def convert_lines(filename, out_filename, settings):
 					new_line += name
 
 				if line_match.group(2) == "*":
+				    # try subbing all names because we don't know the length
+					msg = sub_names(msg, settings)
 					new_line += "] \emph{" + msg + "}"
 				else:
 					new_line += "] " + msg
