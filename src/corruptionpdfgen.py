@@ -17,6 +17,15 @@ def sub_names(string, settings):
 		for name in settings["characters"]:
 			string = sub("^" + name, settings["characters"][name], string)
 	return string
+
+def get_longest_name(settings):
+	longest_name = "" # default name length
+	if "characters" in settings:
+		for name in settings["characters"]:
+			character = settings["characters"][name]
+			if len(character) > len(longest_name):
+				longest_name = character
+	return longest_name	
 	
 def get_issue(settings):
 	if "issue" in settings:
@@ -31,6 +40,7 @@ def convert_lines(filename, out_filename, settings):
 		with open("begin.tex.static") as begin_fh:
 			begin = begin_fh.read()
 		begin = sub(r'@@characters@@', gen_character_names(settings), begin)
+		begin = sub(r'@@longestname@@', get_longest_name(settings), begin)
 
 		if "title" in settings:
 			begin = sub(r'@@title@@', settings["title"], begin)
