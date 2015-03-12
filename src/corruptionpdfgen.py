@@ -19,6 +19,7 @@ def get_issue(settings):
 def convert_lines(filename, out_filename, settings):
 	with open(filename) as fh, open(out_filename, 'w') as out_fh:
 		last = ""
+		name = ""
 
 		begin = ""
 		with open("begin.tex.static") as begin_fh:
@@ -31,13 +32,13 @@ def convert_lines(filename, out_filename, settings):
 		out_fh.write(begin)
 
 		for line in fh:
-			line_match = match(r'\[.+?] (.+?): (.+)', line)
+			line_match = match(r'\[.+?] ([^\*\:]*?)(:|\*) (.+)', line)
 			new_line = line.strip()
 			if line_match is not None:
 
-				name = line_match.group(1)
-				msg = line_match.group(2)
-
+				name = line_match.group(1) or line_match.group(2)
+				msg = line_match.group(3).strip()
+			
 				if match(r'^\(\.\.\.\)', msg):
 					continue
 
@@ -55,7 +56,11 @@ def convert_lines(filename, out_filename, settings):
 					new_line += "\\hbox{}"
 				else:
 					new_line += name
-				new_line += "] " + msg
+
+				if line_match.group(2) == "*":
+					new_line += "] \emph{" + msg + "}"
+				else:
+					new_line += "] " + msg
 			
 			out_fh.write(new_line + "\n")
 			last = name	
