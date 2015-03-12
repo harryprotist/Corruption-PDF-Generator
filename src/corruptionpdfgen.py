@@ -56,6 +56,13 @@ def convert_lines(filename, out_filename, settings):
 				msg = sub(r"([\$\%#_\{\}])", r"\\\1", msg)
 				msg = sub(r"~", r"\\textasciitilde{}", msg)
 				msg = sub(r"\^", r"\\textasciicircum{}", msg)
+
+				# fix quotes
+				msg = sub(r'"(.+?)"', r"``\1''", msg)
+				msg = sub(r"'(.+?)'", r"`\1'", msg)
+		
+				# apply emphasis
+				msg = sub(r">(.+?)<", r"\\emph\{\1\}", msg)
 		
 				new_line = "\\item["
 				if name == last:
