@@ -48,13 +48,16 @@ def convert_lines(filename, out_filename, settings):
 		out_fh.write(begin)
 
 		for line in fh:
-			line_match = match(r'\[.+?] ([^\*\:]*?)(:|\*) (.+)', line)
+			line_match = match(r'\[.+?] ([^\*\:]*?)(:|\*+)(.+)', line)
 			new_line = line.strip()
 			if line_match is not None:
 
 				name = line_match.group(1) or line_match.group(2)
-				msg = line_match.group(3).strip()
+				msg = line_match.group(3).strip(" \n\t*")
 			
+				if match(r"^\*+$", name):
+					name = '*'
+
 				if match(r'^\(\.\.\.\)', msg):
 					continue
 
@@ -80,7 +83,7 @@ def convert_lines(filename, out_filename, settings):
 				else:
 					new_line += name
 
-				if line_match.group(2) == "*":
+				if name == "*":
 				    # try subbing all names because we don't know the length
 					msg = sub_names(msg, settings)
 					new_line += "] \emph{" + msg + "}"
