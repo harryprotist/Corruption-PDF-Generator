@@ -15,7 +15,7 @@ def gen_character_names(settings):
 def sub_names(string, settings):
 	if "characters" in settings:
 		for name in settings["characters"]:
-			string = sub("^" + name, settings["characters"][name], string)
+			string = sub(r"\b" + name + r"\b", settings["characters"][name], string)
 	return string
 
 def get_longest_name(settings):
@@ -56,6 +56,8 @@ def convert_lines(filename, out_filename, settings):
 				msg = line_match.group(3).strip(" \n\t*")
 			
 				if match(r"^\*+$", name):
+				    # try subbing all names because we don't know the length
+					msg = sub_names(msg, settings)
 					name = '*'
 
 				if match(r'^\(\.\.\.\)', msg):
@@ -84,8 +86,6 @@ def convert_lines(filename, out_filename, settings):
 					new_line += name
 
 				if name == "*":
-				    # try subbing all names because we don't know the length
-					msg = sub_names(msg, settings)
 					new_line += "] \emph{" + msg + "}"
 				else:
 					new_line += "] " + msg
